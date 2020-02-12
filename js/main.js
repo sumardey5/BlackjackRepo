@@ -12,6 +12,8 @@ const pile5 = document.getElementById('pile-five');
 const btn = document.querySelector('button');
 /*----- event listeners -----*/
 btn.addEventListener('click', flipCard);
+document.querySelector('#resetGame').addEventListener('click', reset);
+
 /*----- functions -----*/
 function flipCard() {
     if (cards.length) {
@@ -19,10 +21,17 @@ function flipCard() {
     removedCard = cardFlipped;
     cardFlipped = cards.splice(rndIdx, 1);
     flippedCards.push(cardFlipped[0]);
-}
+    }
     render();
 }
+
+function reset() {
+    render();
+}
+
 function render() {
+
+
     if (flippedCards.length === 1) {
         pile2.classList.replace('outline', cardFlipped);
         pile3.classList.replace('outline', cardFlipped);
