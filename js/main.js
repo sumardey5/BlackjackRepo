@@ -1,52 +1,117 @@
 /*----- constants -----*/
-const cards = ["dA","dQ","dK","dJ","d10","d09","d08","d07","d06","d05","d04","d03","d02","hA","hQ","hK","hJ","h10","h09","h08","h07","h06","h05","h04","h03","h02","cA","cQ","cK","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02","sA","sQ","sK","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02"];
+let cards = ["dA","dQ","dK","dJ","d10","d09","d08","d07","d06","d05","d04","d03","d02","hA","hQ","hK","hJ","h10","h09","h08","h07","h06","h05","h04","h03","h02","cA","cQ","cK","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02","sA","sQ","sK","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02"];
 let flippedCards = [];
+let dealerCards = []; //keeping track 
+let playerCards = []; //keeping track
+let playerCardsVal = 0;
+let dealerCardsVal = 0; 
 let cardFlipped;
+let cardsDealt = 0;
 /*----- cached element references -----*/
 const pile1 = document.getElementById('pile-one');
-const pile2 = document.getElementById('pile-two');
-const pile3 = document.getElementById('pile-three');
-const pile4 = document.getElementById('pile-four');
-const pile5 = document.getElementById('pile-five');
+const dealerPile = document.getElementById('dealer-pile');
+const playerPile = document.getElementById('player-pile');
 
-const btn = document.querySelector('button');
+const startBtn = document.querySelector('#startGame');
+
 /*----- event listeners -----*/
-btn.addEventListener('click', flipCard);
-document.querySelector('#resetGame').addEventListener('click', reset);
+startBtn.addEventListener('click', initialDeal);
 
 /*----- functions -----*/
-function flipCard() {
+function flipCard(pile, hide) {
     if (cards.length) {
     let rndIdx = Math.floor(Math.random() * cards.length);
     removedCard = cardFlipped;
     cardFlipped = cards.splice(rndIdx, 1);
+    tmpCardVal = getCardVal(cardFlipped);
+    if (pile == 'dealer'){
+        dealerCardsVal += tmpCardVal
+        dealerCards.push(cardFlipped[0])
+    } else if (pile == 'player') {
+        playerCardsVal += tmpCardVal
+        playerCards.push(cardFlipped[0])
+    }
     flippedCards.push(cardFlipped[0]);
     }
-    render();
+    if (hide != undefined && hide != '') render(1)
+    else render();
 }
 
-function reset() {
-    render();
+
+function getCardVal(card) {
+    tmpVal = card[0].slice(1);
+    cardVal = 0;
+    if(tmpVal === 'K' || tmpVal === 'Q' || tmpVal === 'J' || tmpVal === '10' )
+        cardVal = 10;
+    else if(tmpVal === '09') cardVal = 9;
+    else if(tmpVal === '08') cardVal = 8;
+    else if(tmpVal === '07') cardVal = 7;
+    else if(tmpVal === '06') cardVal = 6;
+    else if(tmpVal === '05') cardVal = 5;
+    else if(tmpVal === '04') cardVal = 4;
+    else if(tmpVal === '03') cardVal = 3;
+    else if(tmpVal === '02') cardVal = 2;
+    else if(tmpVal === 'A') cardVal = 1;
+
+    return cardVal;
+    //If there's only one thing after the if or else if statement then there is no need for brackets
+
+
 }
 
-function render() {
+function initialDeal() {
+    //This is an init function (almost)
+    dealerCards = []; //keeping track 
+    playerCards = []; //keeping track
+    playerCardsVal = 0;
+    dealerCardsVal = 0; 
+    cardsDealt = 0;
+    flippedCards = [];
+    cards = ["dA","dQ","dK","dJ","d10","d09","d08","d07","d06","d05","d04","d03","d02","hA","hQ","hK","hJ","h10","h09","h08","h07","h06","h05","h04","h03","h02","cA","cQ","cK","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02","sA","sQ","sK","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02"];
+    dealerPile.innerHTML = ''
+    playerPile.innerHTML = ''
+     for(var i = 0; i<2; i++) {
+        dealerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>'
+        if (i == 1)flipCard('dealer', 1)
+        flipCard('dealer')
+        cardsDealt+=1
+    }
 
+    for(var i = 0; i<2; i++) {
+        playerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>'
+        flipCard('player')
+        cardsDealt+=1
+    }
+    console.log(dealerCards+' '+dealerCardsVal)
+    console.log(playerCards+' '+playerCardsVal)
+}
 
-    if (flippedCards.length === 1) {
-        pile2.classList.replace('outline', cardFlipped);
-        pile3.classList.replace('outline', cardFlipped);
-        pile4.classList.replace('outline', cardFlipped);
-        pile5.classList.replace('outline', cardFlipped);
+function render(hideCard) {
+
+    if (hideCard == 1){
+    document.getElementById('card_'+cardsDealt).classList.replace('outline', 'back-red');
     } else {
-        pile2.classList.replace(removedCard, cardFlipped);
+    document.getElementById('card_'+cardsDealt).classList.replace('outline', cardFlipped);
     }
-    if (cards.length === 0) {
-        pile1.classList.replace('back-red', 'outline');
-    }
-    if (cards.length === 26) {
-        pile1.classList.remove('shadow');
-    }
-    if (flippedCards.length === 26) {
-        pile2.classList.add('shadow');
-    }
+    // if (flippedCards.length === 1) {
+    // } else {
+        // document.getElementById('card_'+cardsDealt).classList.replace(removedCard, cardFlipped);
+    // }
+
+
 }
+
+function playerHit(){}
+
+function checkForBust(){}
+
+function playerStay(){}
+
+function dealerHit(){}
+
+function playerSplit(){}
+
+function playerDouble(){}
+
+function findWinner(){}
+
