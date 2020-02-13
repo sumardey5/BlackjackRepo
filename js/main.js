@@ -14,29 +14,40 @@ const playerPile = document.getElementById('player-pile');
 
 const startBtn = document.querySelector('#startGame');
 let hitBtn = document.querySelector('#hitBtn');
+let newMessage = document.querySelector('h2');
+
 
 /*----- event listeners -----*/
 startBtn.addEventListener('click', initialDeal);
 hitBtn.addEventListener('click', playerHit);
 
 /*----- functions -----*/
+
 function flipCard(pile, hide) {
     if (cards.length) {
     let rndIdx = Math.floor(Math.random() * cards.length);
     removedCard = cardFlipped;
     cardFlipped = cards.splice(rndIdx, 1);
     tmpCardVal = getCardVal(cardFlipped);
-    if (pile == 'dealer'){
+    if (pile === 'dealer') {
         dealerCardsVal += tmpCardVal
         dealerCards.push(cardFlipped[0])
-    } else if (pile == 'player') {
+    } else if (pile === 'player') {
         playerCardsVal += tmpCardVal
         playerCards.push(cardFlipped[0])
     }
     flippedCards.push(cardFlipped[0]);
     }
-    if (hide != undefined && hide != '') render(1)
+    if (hide != undefined && hide != '') {
+        render(1)
+    }
     else render();
+
+    // if(hitBtn) {
+    //     playerCardsVal += tmpCardVal
+    //     playerCards.push(cardFlipped[0])
+    // }
+    // flippedCards.push(cardFlipped[0]);
 }
 
 
@@ -87,7 +98,7 @@ function initialDeal() {
     }
     console.log(dealerCards+' '+dealerCardsVal)
     console.log(playerCards+' '+playerCardsVal)
-}``
+}
 
 function render(hideCard) {
     if (hideCard == 1) {
@@ -104,13 +115,26 @@ function render(hideCard) {
     // }
 }
 
-function playerHit(){
-    playerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>';
-    flipCard('player');
-    cardsDealt+=1;
+function playerHit() {
+ 
+    if(playerCardsVal < 21) {
+        playerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>';
+        flipCard('player');
+        cardsDealt+=1;
+        console.log(playerCards+' '+playerCardsVal);
+        if (playerCardsVal > 21) {
+        youLost = 1;
+        checkForBust(youLost);
+        console.log(checkForBust);
+        }
+    }
+
+
 }
 
-function checkForBust(){}
+function checkForBust(evt){ 
+    newMessage.textContent = "You Lost";
+}
 
 function playerStay(){}
 
