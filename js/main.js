@@ -73,6 +73,7 @@ function getCardVal(card) {
 }
 
 function initialDeal() {
+    newMessage.textContent = ''; //QQ Ben on this
     dealerCards = []; //keeping track 
     playerCards = []; //keeping track
     playerCardsVal = 0;
@@ -122,18 +123,20 @@ function playerHit() {
         flipCard('player');
         cardsDealt+=1;
         console.log(playerCards+' '+playerCardsVal);
+
         if (playerCardsVal > 21) {
         youLost = 1;
         checkForBust(youLost);
         console.log(checkForBust);
+        } else if(playerCardsVal === 21) {
+        console.log('you win');
         }
     }
-
 
 }
 
 function checkForBust(evt){ 
-    newMessage.textContent = "You Lost";
+    newMessage.textContent = "You Lost, please select START GAME to begin a new game";
 }
 
 function playerStay(){}
