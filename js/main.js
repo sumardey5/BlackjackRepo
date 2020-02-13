@@ -1,8 +1,8 @@
 /*----- constants -----*/
 let cards = ["dA","dQ","dK","dJ","d10","d09","d08","d07","d06","d05","d04","d03","d02","hA","hQ","hK","hJ","h10","h09","h08","h07","h06","h05","h04","h03","h02","cA","cQ","cK","cJ","c10","c09","c08","c07","c06","c05","c04","c03","c02","sA","sQ","sK","sJ","s10","s09","s08","s07","s06","s05","s04","s03","s02"];
 let flippedCards = [];
-let dealerCards = []; //keeping track 
-let playerCards = []; //keeping track
+let dealerCards = [];  
+let playerCards = []; 
 let playerCardsVal = 0;
 let dealerCardsVal = 0; 
 let cardFlipped;
@@ -13,9 +13,11 @@ const dealerPile = document.getElementById('dealer-pile');
 const playerPile = document.getElementById('player-pile');
 
 const startBtn = document.querySelector('#startGame');
+let hitBtn = document.querySelector('#hitBtn');
 
 /*----- event listeners -----*/
 startBtn.addEventListener('click', initialDeal);
+hitBtn.addEventListener('click', playerHit);
 
 /*----- functions -----*/
 function flipCard(pile, hide) {
@@ -60,7 +62,6 @@ function getCardVal(card) {
 }
 
 function initialDeal() {
-    //This is an init function (almost)
     dealerCards = []; //keeping track 
     playerCards = []; //keeping track
     playerCardsVal = 0;
@@ -72,9 +73,11 @@ function initialDeal() {
     playerPile.innerHTML = ''
      for(var i = 0; i<2; i++) {
         dealerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>'
-        if (i == 1)flipCard('dealer', 1)
-        flipCard('dealer')
-        cardsDealt+=1
+        if (i == 1) {
+            flipCard('dealer', 1);
+        }
+        flipCard('dealer');
+        cardsDealt+=1;
     }
 
     for(var i = 0; i<2; i++) {
@@ -84,24 +87,28 @@ function initialDeal() {
     }
     console.log(dealerCards+' '+dealerCardsVal)
     console.log(playerCards+' '+playerCardsVal)
-}
+}``
 
 function render(hideCard) {
-
-    if (hideCard == 1){
+    if (hideCard == 1) {
     document.getElementById('card_'+cardsDealt).classList.replace('outline', 'back-red');
     } else {
     document.getElementById('card_'+cardsDealt).classList.replace('outline', cardFlipped);
     }
+
+
+
     // if (flippedCards.length === 1) {
     // } else {
         // document.getElementById('card_'+cardsDealt).classList.replace(removedCard, cardFlipped);
     // }
-
-
 }
 
-function playerHit(){}
+function playerHit(){
+    playerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>';
+    flipCard('player');
+    cardsDealt+=1;
+}
 
 function checkForBust(){}
 
