@@ -7,19 +7,33 @@ let playerCardsVal = 0;
 let dealerCardsVal = 0; 
 let cardFlipped;
 let cardsDealt = 0;
+let totalMoney = 1000;
+let bet = 0;
+
 /*----- cached element references -----*/
 const pile1 = document.getElementById('pile-one');
 const dealerPile = document.getElementById('dealer-pile');
 const playerPile = document.getElementById('player-pile');
-
 const startBtn = document.querySelector('#startGame');
 let hitBtn = document.querySelector('#hitBtn');
+let stayBtn = document.querySelector('#stayBtn');
 let newMessage = document.querySelector('h2');
 
 
 /*----- event listeners -----*/
 startBtn.addEventListener('click', initialDeal);
 hitBtn.addEventListener('click', playerHit);
+stayBtn.addEventListener('click', playerStay);
+
+document.querySelector('#doubleBtn').addEventListener('click',playerDouble);
+
+document.querySelector('#oneBtn').addEventListener('click',renderBet);
+document.querySelector('#fiveBtn').addEventListener('click',renderBet);
+document.querySelector('#tenBtn').addEventListener('click',renderBet);
+document.querySelector('#twoFiveBtn').addEventListener('click',renderBet);
+document.querySelector('#fiftyBtn').addEventListener('click',renderBet);
+document.querySelector('#hundredBtn').addEventListener('click',renderBet);
+
 
 /*----- functions -----*/
 
@@ -85,7 +99,7 @@ function initialDeal() {
     playerPile.innerHTML = ''
      for(var i = 0; i<2; i++) {
         dealerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>'
-        if (i == 1) {
+        if (i === 1) {
             flipCard('dealer', 1);
         }
         flipCard('dealer');
@@ -96,12 +110,18 @@ function initialDeal() {
         playerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>'
         flipCard('player')
         cardsDealt+=1
+
+        if(cardsDealt === 2 && playerCardsVal === 21) {
+            playerBlackJack();
+        }
     }
     console.log(dealerCards+' '+dealerCardsVal)
     console.log(playerCards+' '+playerCardsVal)
 }
 
 function render(hideCard) {
+
+
     if (hideCard == 1) {
     document.getElementById('card_'+cardsDealt).classList.replace('outline', 'back-red');
     } else {
@@ -123,13 +143,18 @@ function playerHit() {
         flipCard('player');
         cardsDealt+=1;
         console.log(playerCards+' '+playerCardsVal);
+        dealerHit();
 
         if (playerCardsVal > 21) {
         youLost = 1;
+        revealCard = 0;
         checkForBust(youLost);
-        console.log(checkForBust);
+
         } else if(playerCardsVal === 21) {
-        console.log('you win');
+        console.log('you win'); 
+        }
+        else {
+            playerStay();
         }
     }
 
@@ -139,13 +164,65 @@ function checkForBust(evt){
     newMessage.textContent = "You Lost, please select START GAME to begin a new game";
 }
 
-function playerStay(){}
+function playerStay() {
+    //this function works
+}
 
-function dealerHit(){}
+function dealerHit() {
+    if(playerCardsVal === 21) {
+        do {
+        dealerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>';
+        flipCard('dealer');
+        cardsDealt+=1;
+        console.log(dealerCards+' '+dealerCardsVal);
+        } while (dealerCardsVal < 17);
+
+    } else if (playerCardsVal > 21) {
+        do {
+        dealerPile.innerHTML += '<div class="card large outline" id="card_'+cardsDealt+'"></div>';
+        flipCard('dealer');
+        cardsDealt+=1;
+        console.log(dealerCards+' '+dealerCardsVal);
+        } while (dealerCardsVal < 17);
+    } 
+}
 
 function playerSplit(){}
 
-function playerDouble(){}
+function playerDouble(){
+    
+}
 
 function findWinner(){}
 
+function playerBlackJack(){
+    //IT WORKS
+}
+
+function renderBet(betCheck){
+    if(betCheck.target.id === 'oneBtn' && totalMoney >= 1) {
+        bet += 1;
+        totalMoney -= 1;
+    }   
+    if(betCheck.target.id === 'fiveBtn' && totalMoney >= 5) {
+        bet += 5;
+        totalMoney -= 5;
+    }if(betCheck.target.id === 'tenBtn' && totalMoney >= 10) {
+        bet += 10;
+        totalMoney -= 10;
+    }if(betCheck.target.id === 'twoFiveBtn' && totalMoney >= 25) {
+        bet += 25;
+        totalMoney -= 25;
+    }if(betCheck.target.id === 'fiftyBtn' && totalMoney >= 50) {
+        bet += 50;
+        totalMoney -= 50;
+    }if(betCheck.target.id === 'hundredBtn' && totalMoney >= 100) {
+        bet += 100;
+        totalMoney -= 100;
+    }
+    
+    console.log(totalMoney);
+    console.log(bet);
+
+
+}
