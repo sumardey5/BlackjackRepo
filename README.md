@@ -7,12 +7,11 @@ Blackjack was the first ever card game I ever learned, to this day, it's the car
 https://sumardey5.github.io/BlackjackRepo/
 
 ## View of Game:
+![Wireframe](wireframe.jpg)
 
-![Wireframe](https://imgur.com/iyfTlk8)
+![Game Presentation](viewOfGame.png)
 
-![View of Game](https://imgur.com/MHEMOqM)
-
-![Gameplay](https://imgur.com/4zNpKc8)
+![Game Play](gamePlay.png)
 
 ## Technology Implemented:
 - JavaScript
