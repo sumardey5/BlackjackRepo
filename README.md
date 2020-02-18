@@ -4,7 +4,7 @@
 Blackjack was the first ever card game I ever learned, to this day, it's the card game I always wish to lose to in the casino
 
 ## Play the game:
-
+https://sumardey5.github.io/BlackjackRepo/
 
 ## View of Game:
 
