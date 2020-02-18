@@ -133,7 +133,7 @@ function render(hideCard) {
         document.getElementById('card_' + cardsDealt).classList.replace('outline', 'back-red');
     } else {
         document.getElementById('card_' + cardsDealt).classList.replace('outline', cardFlipped);
-    }
+    }``
 
 }
 
